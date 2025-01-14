@@ -1,91 +1,89 @@
 from app import app, db
 from flask import request,  jsonify
-from models import Friend
+from models import Course
 
 #CRUD Operations
-#Get all Friends
-@app.route("/api/friends",methods=["GET"])
-def get_friends():
+#Get all courses
+@app.route("/api/courses",methods=["GET"])
+def get_Courses():
     try:
-        friends = Friend.query.all()
-        result = [friend.to_json() for friend in friends]
+        courses = Course.query.all()
+        result = [Course.to_json() for Course in courses]
         #[ {...}, {...}, {...}] //This is what I am storing in the results variable
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-#Create a Friend
-@app.route("/api/friends", methods=["POST"])
-def create_friend():
+#Create a Course
+@app.route("/api/courses",methods=["POST"])
+def create_Course():
     try:
         #Object to recieve data
         data = request.json
-
         #Check for required fields
-        required_fields = ["name","role","description","gender"]
-
+        required_fields = ["course_name","professor","description","pass_fail"]
         for field in required_fields:
             if field not in data:
                 return jsonify({"error":f"Missing required field: {field}"}), 501
 
-        name = data.get("name")
-        role = data.get("role")
+        course_name = data.get("course_name")
+        professor = data.get("professor")
         description = data.get("description")
-        gender = data.get("gender")
+        pass_fail = data.get("pass_fail")
 
         #fetch avatar image based on genger
-        if gender =="male":
-            img_url = f"http://avatar.iran.liara.run/public/boy?username={name}"
-        elif gender =="female":
-            img_url = f"http://avatar.iran.liara.run/public/girl?username={name}"
+        if pass_fail =="pass":
+            img_url = f"http://avatar.iran.liara.run/public/boy?username={course_name}"
+        elif pass_fail =="fail":
+            img_url = f"http://avatar.iran.liara.run/public/girl?username={course_name}"
         else:
             img_url = None
 
-        #Created a new friend
-        new_friend = Friend(name=name, role=role, description=description, gender=gender, img_url=img_url)
+        #Created a new Course
+        new_Course = Course(course_name=course_name, professor=professor, description=description, pass_fail=pass_fail, img_url=img_url)
 
-        #Adding this friend to the database
-        db.session.add(new_friend) #This is like staging in git
+        #Adding this Course to the database
+        db.session.add(new_Course) #This is like staging in git
         db.session.commit() #This is like commit the changed in git to the database
 
-        return jsonify({"msg":"Friends created successfully"}), 200
+        return jsonify({"msg":"courses created successfully"}), 200
     
     except Exception as e:
         db.session.rollback()
         return jsonify({"error":str(e)}), 500
         
-#Delete a Friend
-@app.route("/api/friends/<int:id>",  methods=["DELETE"])
-def delete_friend(id):
+#Delete a Course
+@app.route("/api/courses/<int:id>",  methods=["DELETE"])
+def delete_Course(id):
     try:
-        friend = Friend.query.get(id)
+        Course = Course.query.get(id)
         
-        if friend is None:
+        if Course is None:
             return jsonify({"error":"msg no name exists in database"}), 404
-        db.session.delete(friend)
+        db.session.delete(Course)
         db.session.commit()
-        return jsonify({"msg": f"{friend} was deleted successfully"}), 200
+        return jsonify({"msg": f"{Course} was deleted successfully"}), 200
         
     except Exception as e:
         db.session.rollback()
         return jsonify({"error":str(e)}), 500
         
-#Update friends information
-@app.route("/api/friends/<int:id>",  methods=["PATCH"])
-def update_friend(id):
+#Update courses information
+@app.route("/api/courses/<int:id>",  methods=["PATCH"])
+def update_Course(id):
     try:
-        friend = Friend.query.get(id)
-        if friend is None:
+        Course = Course.query.get(id)
+        if Course is None:
             return jsonify({"error":"msg no name exists in database"}), 404
         data = request.json #Get data from a HTTP request
 
         #Changes the data for the object with an ID
-        friend.name = data.get("name", friend.name)
-        friend.role = data.get("role", friend.role)
-        friend.description = data.get("description", friend.description)
-        friend.gender = data.get("gender", friend.gender)
+        Course.course_name = data.get("course_name", Course.course_name)
+        Course.professor = data.get("professor", Course.professor)
+        Course.description = data.get("description", Course.description)
+        Course.pass_fail = data.get("pass_fail", Course.pass_fail)
         db.session.commit()
-        return jsonify({"msg": f"{friend} was updated successfully"}), 200
+        return jsonify({"msg": f"{Course} was updated successfully"}), 200
         
     except Exception as e:
         db.session.rollback()
