@@ -7,11 +7,11 @@ import { useState } from "react";
 export const BASE_URL = import.meta.env.MODE === "development" ? "http://127.0.0.1:5000/api" : "/api";
 
 function App() {
-	const [courses, setCollection] = useState([]);
+	const [courses, setCourses] = useState([]);
 
 	return (
 		<Stack minH={"100vh"}>
-			<Navbar setCollection={setCollection} />
+			<Navbar setCourses={setCourses} />
 
 			<Container maxW={"1200px"} my={4}>
 				<Text
@@ -28,7 +28,7 @@ function App() {
 					🚀
 				</Text>
 
-				<CourseGrid courses={courses} setCollection={setCollection} />
+				<CourseGrid courses={courses} setCourses={setCourses} />
 			</Container>
 		</Stack>
 	);

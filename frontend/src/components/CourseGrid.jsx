@@ -9,7 +9,7 @@ const CourseGrid = ({ courses, setCourses }) => {
 	useEffect(() => {
 		const getCourses = async () => {
 			try {
-				const res = await fetch(BASE_URL + "/Courses");
+				const res = await fetch(BASE_URL + "/courses");
 				const data = await res.json();
 
 				if (!res.ok) {
@@ -46,7 +46,7 @@ const CourseGrid = ({ courses, setCourses }) => {
 					<Spinner size={"xl"} />
 				</Flex>
 			)}
-			{!isLoading && courses && courses.length === 0 && (
+			{!isLoading && courses.length === 0 && ( //courses &&
 				<Flex justifyContent={"center"}>
 					<Text fontSize={"xl"}>
 						<Text as={"span"} fontSize={"2xl"} fontWeight={"bold"} mr={2}>

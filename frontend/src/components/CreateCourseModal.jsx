@@ -25,7 +25,7 @@ const CreateCollectionModal = ({ setdata }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [isLoading, setIsLoading] = useState(false);
 	const [inputs, setInputs] = useState({
-		name: "",
+		course_name: "",
 		professor: "",
 		description: "",
 		gender: "",
@@ -36,7 +36,7 @@ const CreateCollectionModal = ({ setdata }) => {
 		e.preventDefault(); // prevent page refresh
 		setIsLoading(true);
 		try {
-			const res = await fetch(BASE_URL + "/Courses", {
+			const res = await fetch(BASE_URL + "/courses", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -60,7 +60,7 @@ const CreateCollectionModal = ({ setdata }) => {
 			setdata((prevCourses) => [...prevdata, data]);
 
 			setInputs({
-				name: "",
+				course_name: "",
 				professor: "",
 				description: "",
 				gender: "",
@@ -75,7 +75,7 @@ const CreateCollectionModal = ({ setdata }) => {
 		} finally {
 			setIsLoading(false);
 			setInputs({
-				name: "",
+				course_name: "",
 				professor: "",
 				description: "",
 				gender: "",
@@ -101,11 +101,11 @@ const CreateCollectionModal = ({ setdata }) => {
 							<Flex alignItems={"center"} gap={4}>
 								{/* Left */}
 								<FormControl>
-									<FormLabel>Course_ame</FormLabel>
+									<FormLabel>Course Name</FormLabel>
 									<Input
-										placeholder='example'
-										value={inputs.name}
-										onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
+										placeholder='Intro to Cloud Computing'
+										value={inputs.course_name}
+										onChange={(e) => setInputs({ ...inputs, course_name: e.target.value })}
 									/>
 								</FormControl>
 
@@ -134,14 +134,14 @@ const CreateCollectionModal = ({ setdata }) => {
 							<RadioGroup mt={4}>
 								<Flex gap={5}>
 									<Radio
-										value='Pass'
-										onChange={(e) => setInputs({ ...inputs, gender: e.target.value })}
+										value='pass'
+										onChange={(e) => setInputs({ ...inputs, pass_fail: e.target.value })}
 									>
 										Pass
 									</Radio>
 									<Radio
-										value='Fail'
-										onChange={(e) => setInputs({ ...inputs, gender: e.target.value })}
+										value='fail'
+										onChange={(e) => setInputs({ ...inputs, pass_fail: e.target.value })}
 									>
 										Fail
 									</Radio>

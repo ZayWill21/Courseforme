@@ -21,7 +21,7 @@ def create_Course():
         #Object to recieve data
         data = request.json
         #Check for required fields
-        required_fields = ["course_name","professor","description","pass_fail"]
+        required_fields = ["course_name","professor","description","pass_fail"] #
         for field in required_fields:
             if field not in data:
                 return jsonify({"error":f"Missing required field: {field}"}), 501

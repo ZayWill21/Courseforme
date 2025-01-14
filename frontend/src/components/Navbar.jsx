@@ -16,7 +16,7 @@ const Navbar = ({ setCollection }) => {
 						gap={3}
 						display={{ base: "none", sm: "flex" }}
 					>
-						<Text fontSize={"40px"} >Organize your Life</Text>
+						<Text fontSize={"40px"} >My College Courses</Text>
 					</Flex>
 					{/* Right side */}
 					<Flex gap={3} alignItems={"center"}>

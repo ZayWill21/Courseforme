@@ -7,7 +7,7 @@ const CourseCard = ({ course, setCourses }) => {
 	const toast = useToast();
 	const handleDeleteCourse = async () => {
 		try {
-			const res = await fetch(BASE_URL + "/Courses/" + course.id, {
+			const res = await fetch(BASE_URL + "/courses/" + course.id, {
 				method: "DELETE",
 			});
 			const data = await res.json();
